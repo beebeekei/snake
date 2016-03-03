@@ -266,3 +266,9 @@ function restartGame() {
     }
     startGame();
 }
+
+document.addEventListener("keydown", function(e) {
+    if (e.keyCode == 13) {
+        restartGame();
+    }
+});
