@@ -18,7 +18,9 @@ function arrayClone(arr) {
 //caching DOM elements
 var cache = {
     body: document.body,
-    playGround: document.getElementById('playground-table')
+    playGround: document.getElementById('playground-table'),
+    score_value: document.getElementById('score_value'),
+    highscore_value: document.getElementById('highscore_value')
 };
 
 //moving cells of playground into multidimensional arrays
@@ -101,7 +103,7 @@ function moves() {
             snake[i][j] = snakeOld[i - 1][j];
         }
     }
-   
+
     //checking if snake doesn't bump into itself
     for (var i = 1; i < snake.length; i++) {
         if (snake[0][1] == snake[i][1] && snake[0][2] == snake[i][2]) {
@@ -120,7 +122,9 @@ function moves() {
         snake.push(snakeOld[ snakeOld.length - 1 ]);
         removeApple();
         placeApple();
-    }    
+    }
+    //storing score
+    cache.score_value.innerHTML = snake.length - snakeStartLength;
 }
 var timer; //to store setTimeout for curent move
 var breakSnake = false; //variable to store if snake bumped into itself or not
@@ -214,7 +218,7 @@ document.addEventListener("keydown", function(e) {
 //lose messages
 var errorBlock = document.createElement('div');
 errorBlock.classList.add('lose_message_wrapper');
-errorBlock.innerHTML = '<div class="lose_message"><h2>Sorry, you lose :(</h2><div class="restart" onclick="reloadPage()">Restart</div></div>';
+errorBlock.innerHTML = '<div class="lose_message"><h2>Sorry, you lose :(</h2></div>';
 
 function error() {
     cache.body.classList.add('error');

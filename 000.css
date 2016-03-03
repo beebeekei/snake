@@ -7,6 +7,11 @@
 body {
     text-align: center;
 }
+.wrapper {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 960px;
+}
 .wrapper_overlay {
     background: #FEE;
     bottom: 0;
@@ -25,8 +30,9 @@ body {
 }
 .playground-wrapper {
     border: 1px solid #aaa;
-    display: inline-block;
+    float: left;
     padding: 5px;
+    position: relative;
 }
 
 .playground-table {
@@ -92,4 +98,8 @@ body {
 
 .restart:hover {
     background: grey;
+}
+
+.info_panel_wrapper {
+    float: right;
 }
