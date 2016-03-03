@@ -1,0 +1,95 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+}
+.wrapper_overlay {
+    background: #FEE;
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 98;
+}
+.error .wrapper_overlay {
+    display: block;
+}
+.playground-wrapper {
+    border: 1px solid #aaa;
+    display: inline-block;
+    padding: 5px;
+}
+
+.playground-table {
+    border: 1px solid #aaa;
+    padding: 5px;
+}
+.cell {
+    border: 1px solid #eee;
+    height: 10px;
+    width: 10px;
+}
+
+.apple {
+    background: #f00;
+    box-shadow: 1px 1px 0px 0px #880000;
+    position: relative;
+}
+
+.snake_head {
+    background: #A2A2A2;
+    box-shadow: 1px 1px 0px 0px rgb(86, 86, 86);
+    position: relative;
+    z-index: 1;
+}
+.snake_body {
+    background: #C5C5C5;
+    box-shadow: 1px 1px 0px 0px rgba(138,138,138,1);
+    position: relative;
+}
+
+/* lose block */
+.lose_message_wrapper {
+    background: white;
+    left: 50%;
+    margin-left: -150px;
+    position: absolute;
+    top: 60px;
+    z-index: 99;
+}
+
+.lose_message {
+    background: white;
+    border: 1px solid #aaa;
+    height: 200px;
+    padding: 5px;
+    width: 300px;
+}
+
+.lose_message h2 {
+    margin-bottom: 45px;
+    margin-top: 80px;
+}
+
+.restart {
+    background: black;
+    color: wheat;
+    cursor: pointer;
+    margin: 0 auto;
+    padding: 5px 0;
+    width: 100px;
+    transition: all 0.15s linear 0s;
+}
+
+.restart:hover {
+    background: grey;
+}
