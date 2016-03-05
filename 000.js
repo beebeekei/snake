@@ -231,6 +231,8 @@ function startGame() {
             currentKeyCode = e.keyCode;
             clearTimeout(timer);
             moveDownStep();
+        } else if (e.keyCode == 13) {
+            restartGame();
         }
     });
 
@@ -266,9 +268,3 @@ function restartGame() {
     }
     startGame();
 }
-
-document.addEventListener("keydown", function(e) {
-    if (e.keyCode == 13) {
-        restartGame();
-    }
-});
