@@ -10,7 +10,7 @@ body {
 .wrapper {
     margin: 0 auto;
     overflow: hidden;
-    width: 960px;
+    width: 460px;
 }
 .wrapper_overlay {
     background: #FEE;

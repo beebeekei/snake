@@ -54,6 +54,12 @@ for (var i = 0; i < snakeStartLength; i++) {
 }
 
 var snakeOld; //to store old values of snake coordinates
+var timer; //to store setTimeout for curent move and to clear it when changing direction
+
+var breakSnake = false; //variable to store if snake bumped into itself or not
+//if true - pass it to return function (stop moving in background)
+var currentKeyCode = 40; //variable to keep current direction
+//in order to be unable to move the opposite direction
 
 function startGame() {
     //assigning again - to be able to restart game with restartGame()
@@ -145,9 +151,6 @@ function startGame() {
             placeApple();
         }
     }
-    var timer; //to store setTimeout for curent move
-    var breakSnake = false; //variable to store if snake bumped into itself or not
-    //if true - pass it to return function (stop moving in background)
 
     function moveLeftStep() {
         if (breakSnake) {
@@ -210,31 +213,7 @@ function startGame() {
         timer = setTimeout(moveDownStep, snakeSpeed);
     }
 
-    var currentKeyCode = 40; //variable to keep current direction
-    //in order to be unable to move the opposite direction
 
-    //detecting pressed key
-    document.addEventListener("keydown", function(e) {
-        if (e.keyCode == 37 && currentKeyCode != 39) {
-            currentKeyCode = e.keyCode;
-            clearTimeout(timer);
-            moveLeftStep();
-        } else if (e.keyCode == 38 && currentKeyCode != 40) {
-            currentKeyCode = e.keyCode;
-            clearTimeout(timer);
-            moveUpStep();
-        } else if (e.keyCode == 39 && currentKeyCode != 37) {
-            currentKeyCode = e.keyCode;
-            clearTimeout(timer);
-            moveRightStep();
-        } else if (e.keyCode == 40 && currentKeyCode != 38) {
-            currentKeyCode = e.keyCode;
-            clearTimeout(timer);
-            moveDownStep();
-        } else if (e.keyCode == 13) {
-            restartGame();
-        }
-    });
 
     //lose messages
     var errorBlock = document.createElement('div');
@@ -248,23 +227,67 @@ function startGame() {
     }
 }
 
+//detecting pressed key
+document.addEventListener("keydown", function(e) {
+    if (e.keyCode == 37 && currentKeyCode != 39) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        moveLeftStep();
+    } else if (e.keyCode == 38 && currentKeyCode != 40) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        moveUpStep();
+    } else if (e.keyCode == 39 && currentKeyCode != 37) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        moveRightStep();
+    } else if (e.keyCode == 40 && currentKeyCode != 38) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        moveDownStep();
+    } else if (e.keyCode == 13) {
+        restartGame();
+    }
+});
+
 startGame();
 
 function restartGame() {
     //erasing values from previous game and starting game again
-    var error = document.getElementsByClassName('error');
-    error[0].classList.toggle('error');
-    var lose_mes = document.getElementsByClassName('lose_message_wrapper');
-    cache.body.removeChild(lose_mes[0]);
+    var errorElem = document.getElementsByClassName('error');
+    if (errorElem.length != 0) {
+        errorElem[0].classList.toggle('error');
+        var lose_mes = document.getElementsByClassName('lose_message_wrapper');
+        cache.body.removeChild(lose_mes[0]);
+    }    
+    breakSnake = false;
+    clearTimeout(timer);
     for (var i = 0; i < cache.playGround.rows.length; i++) {
         for (var j = 0; j < cache.playGround.rows[0].cells.length; j++) {
             playGroundArray[i][j].className = "cell";
         }
     }
-    var i = 0;
-    var snake = [];
-    for (var i = 0; i < snakeStartLength; i++) {
-        snake[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
-    }
     startGame();
 }
+
+// function restartGame() {
+//     clearTimeout(timer);
+//     //erasing values from previous game and starting game again
+//     var errorElem = document.getElementsByClassName('error');
+//     if (errorElem.length != 0) {
+//         errorElem[0].classList.toggle('error');
+//         var lose_mes = document.getElementsByClassName('lose_message_wrapper');
+//         cache.body.removeChild(lose_mes[0]);
+//     }
+//     for (var i = 0; i < cache.playGround.rows.length; i++) {
+//         for (var j = 0; j < cache.playGround.rows[0].cells.length; j++) {
+//             playGroundArray[i][j].className = "cell";
+//         }
+//     }
+//     var i = 0;
+//     var snake = [];
+//     for (var i = 0; i < snakeStartLength; i++) {
+//         snake[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
+//     }
+//     startGame();
+// }
