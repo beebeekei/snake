@@ -24,12 +24,13 @@ function getRandomInt(min, max) {
 var cache = {
     body: document.body,
     playGround: document.getElementById('playground-table'),
-    score_value: document.getElementById('score_value'),
-    highscore_value: document.getElementById('highscore_value')
+    scoreValue: document.getElementById('score_value'),
+    highscoreValue: document.getElementById('highscore_value'),
+    restartButton: document.getElementById('restart')
 };
 
 //initial value
-cache.highscore_value.innerHTML = 0;
+cache.highscoreValue.innerHTML = 0;
 
 //moving cells of playground into multidimensional arrays
 var playGroundArray = [];
@@ -44,6 +45,10 @@ for (var i = 0; i < cache.playGround.rows.length; i++) {
 //calculating starting coordinates of snake head
 var startCellCoordX = Math.floor(playGroundArray[0].length / 2);
 var startCellCoordY = Math.floor(playGroundArray.length / 2);
+
+var timer; //to store setTimeout for curent move
+var breakSnake = false; //variable to store if snake bumped into itself or not
+//if true - pass it to return function (stop moving in background)
 
 var snake = {
     body: [], //each subarray will consist of [class, row number, column number] / [class, y, x]
@@ -90,19 +95,20 @@ var snake = {
 
         //eating apple
         if (apple.array[1] == snake.body[0][1] && apple.array[2] == snake.body[0][2]) {
+            //increasing body of a snake by adding part to end (tail coords of snake after eating apple equal to tail coords of old snake)
             snake.body.push(snake.bodyOld[ snake.bodyOld.length - 1 ]);
 
             //storing score
-            cache.score_value.innerHTML = snake.body.length - snake.startLength;
-            if (parseFloat(cache.highscore_value.innerHTML) < parseFloat(cache.score_value.innerHTML)) {
-                cache.highscore_value.innerHTML = cache.score_value.innerHTML;
+            cache.scoreValue.innerHTML = snake.body.length - snake.startLength;
+            if (parseFloat(cache.highscoreValue.innerHTML) < parseFloat(cache.scoreValue.innerHTML)) {
+                cache.highscoreValue.innerHTML = cache.scoreValue.innerHTML;
             }
 
             apple.remove();
             apple.place();
         }
     },
-    moveLeftStep: function() {
+    leftStep: function() {
         if (breakSnake) {
             return;
         }
@@ -115,9 +121,9 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.moveLeftStep, snake.snakeSpeed);
+        timer = setTimeout(snake.leftStep, snake.snakeSpeed);
     },
-    moveUpStep: function() {
+    upStep: function() {
         if (breakSnake) {
             return;
         }
@@ -130,9 +136,9 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.moveUpStep, snake.snakeSpeed);
+        timer = setTimeout(snake.upStep, snake.snakeSpeed);
     },
-    moveRightStep: function() {
+    rightStep: function() {
         if (breakSnake) {
             return;
         }
@@ -145,9 +151,9 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.moveRightStep, snake.snakeSpeed);
+        timer = setTimeout(snake.rightStep, snake.snakeSpeed);
     },
-    moveDownStep: function() {
+    downStep: function() {
         if (breakSnake) {
             return;
         }
@@ -160,7 +166,7 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.moveDownStep, snake.snakeSpeed);
+        timer = setTimeout(snake.downStep, snake.snakeSpeed);
     }
 };
 
@@ -168,7 +174,10 @@ var apple = {
     array: [], //array will consist of [class, row number, column number] / [class, y, x]
     //we need to place apple on board with random coords - but not to place on a snake
     place: function() {
+        apple.array[0] = 'apple'; //constant
+
         var appleIsOnSnake;
+
         do {
             appleIsOnSnake = false;
             this.array[1] = getRandomInt(0, playGroundArray.length); //Y
@@ -185,16 +194,10 @@ var apple = {
         playGroundArray[ this.array[1] ][ this.array[2] ].classList.toggle('apple');
     },
     remove: function() {
-        var appleTemp = document.querySelectorAll('.apple');
-        appleTemp[0].classList.remove('apple');
+        var appleCell = document.querySelectorAll('.apple');
+        appleCell[0].classList.remove('apple');
     }
 };
-
-apple.array[0] = 'apple'; //constant
-
-var timer; //to store setTimeout for curent move
-var breakSnake = false; //variable to store if snake bumped into itself or not
-//if true - pass it to return function (stop moving in background)
 
 //lose messages
 var errorBlock = document.createElement('div');
@@ -220,19 +223,19 @@ document.addEventListener("keydown", function(e) {
     if (e.keyCode == 37 && currentKeyCode != 39) {
         currentKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.moveLeftStep();
+        snake.leftStep();
     } else if (e.keyCode == 38 && currentKeyCode != 40) {
         currentKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.moveUpStep();
+        snake.upStep();
     } else if (e.keyCode == 39 && currentKeyCode != 37) {
         currentKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.moveRightStep();
+        snake.rightStep();
     } else if (e.keyCode == 40 && currentKeyCode != 38) {
         currentKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.moveDownStep();
+        snake.downStep();
     } else if (e.keyCode == 13) {
         restartGame();
     }
@@ -242,11 +245,11 @@ function restartGame() {
     //erasing values from previous game and starting game again
     clearTimeout(timer);
     currentKeyCode = 40;
-    cache.score_value.innerHTML = 0;
+    cache.scoreValue.innerHTML = 0;
     var error = document.getElementsByClassName('error');
     error[0].classList.toggle('error');
-    var lose_mes = document.getElementsByClassName('lose_message_wrapper');
-    cache.body.removeChild(lose_mes[0]);
+    var lose_message = document.getElementsByClassName('lose_message_wrapper');
+    cache.body.removeChild(lose_message[0]);
     for (var i = 0; i < cache.playGround.rows.length; i++) {
         for (var j = 0; j < cache.playGround.rows[0].cells.length; j++) {
             playGroundArray[i][j].className = "cell";
@@ -257,10 +260,12 @@ function restartGame() {
     for (var i = 0; i < snake.startLength; i++) {
         snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
     }
-    snake.body[0][0] = 'snake_head'; //constant
     breakSnake = false;
 
     snake.creating();
     snake.placing();
     apple.place();
 }
+
+//restart button
+cache.restartButton.addEventListener("click", restartGame);
