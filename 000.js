@@ -50,11 +50,17 @@ var snake = {
     bodyOld: [], //to store old values of snake coordinates
     startLength: 4,
     snakeSpeed: 700,
+    creating: function() {
+        for (var i = 0; i < snake.startLength; i++) {
+            snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
+        }
+        snake.body[0][0] = 'snake_head'; //constant
+    },
     //placing snake on a playground
     //counters: i - Y coordinate (as a snake is placed vertically) stands for starting point
     //snake builds from head to tail;
-    //j - each part (subarray) of snake; k - loop works as many times as the length of snake is.    
-    init: function() {
+    //j - each part (subarray) of snake; k - loop works as many times as the length of snake is.
+    placing: function() {
         for (var i = startCellCoordY, j = 0, k = snake.body.length; k > 0; i--, j++, k--) {
             playGroundArray[i][startCellCoordX].classList.add(snake.body[j][0]);
         }
@@ -158,14 +164,9 @@ var snake = {
     }
 };
 
-for (var i = 0; i < snake.startLength; i++) {
-    snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
-}
-snake.body[0][0] = 'snake_head'; //constant
-
 var apple = {
     array: [], //array will consist of [class, row number, column number] / [class, y, x]
-    //we need to place apple on board with random coords - but not to place on a snake    
+    //we need to place apple on board with random coords - but not to place on a snake
     place: function() {
         var appleIsOnSnake;
         do {
@@ -207,7 +208,8 @@ function error() {
 }
 
 //game block
-snake.init();
+snake.creating();
+snake.placing();
 apple.place();
 
 var currentKeyCode = 40; //variable to keep current direction
@@ -237,7 +239,7 @@ document.addEventListener("keydown", function(e) {
 });
 
 function restartGame() {
-    //erasing values from previous game and starting game again    
+    //erasing values from previous game and starting game again
     clearTimeout(timer);
     currentKeyCode = 40;
     cache.score_value.innerHTML = 0;
@@ -258,6 +260,7 @@ function restartGame() {
     snake.body[0][0] = 'snake_head'; //constant
     breakSnake = false;
 
-    snake.init();
+    snake.creating();
+    snake.placing();
     apple.place();
 }
