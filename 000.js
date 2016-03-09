@@ -231,7 +231,10 @@ document.addEventListener("keydown", function(e) {
 });
 
 function restartGame() {
-    //erasing values from previous game and starting game again
+    //erasing values from previous game and starting game again    
+    clearTimeout(timer);
+    currentKeyCode = 40;
+    cache.score_value.innerHTML = 0;
     var error = document.getElementsByClassName('error');
     error[0].classList.toggle('error');
     var lose_mes = document.getElementsByClassName('lose_message_wrapper');
@@ -247,6 +250,7 @@ function restartGame() {
         snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
     }
     snake.body[0][0] = 'snake_head'; //constant
+    breakSnake = false;
 
     snake.init();
     apple.place();
