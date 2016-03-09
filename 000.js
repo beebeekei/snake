@@ -28,6 +28,7 @@ var cache = {
     highscore_value: document.getElementById('highscore_value')
 };
 
+//initial value
 cache.highscore_value.innerHTML = 0;
 
 //moving cells of playground into multidimensional arrays
@@ -45,10 +46,14 @@ var startCellCoordX = Math.floor(playGroundArray[0].length / 2);
 var startCellCoordY = Math.floor(playGroundArray.length / 2);
 
 var snake = {
-    body: [],
-    bodyOld: [],
+    body: [], //each subarray will consist of [class, row number, column number] / [class, y, x]
+    bodyOld: [], //to store old values of snake coordinates
     startLength: 4,
     snakeSpeed: 700,
+    //placing snake on a playground
+    //counters: i - Y coordinate (as a snake is placed vertically) stands for starting point
+    //snake builds from head to tail;
+    //j - each part (subarray) of snake; k - loop works as many times as the length of snake is.    
     init: function() {
         for (var i = startCellCoordY, j = 0, k = snake.body.length; k > 0; i--, j++, k--) {
             playGroundArray[i][startCellCoordX].classList.add(snake.body[j][0]);
@@ -159,7 +164,8 @@ for (var i = 0; i < snake.startLength; i++) {
 snake.body[0][0] = 'snake_head'; //constant
 
 var apple = {
-    array: [],
+    array: [], //array will consist of [class, row number, column number] / [class, y, x]
+    //we need to place apple on board with random coords - but not to place on a snake    
     place: function() {
         var appleIsOnSnake;
         do {
