@@ -54,7 +54,7 @@ var snake = {
     body: [], //each subarray will consist of [class, row number, column number] / [class, y, x]
     bodyOld: [], //to store old values of snake coordinates
     startLength: 4,
-    snakeSpeed: 700,
+    startSpeed: 150,
     creating: function() {
         for (var i = 0; i < snake.startLength; i++) {
             snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
@@ -106,6 +106,11 @@ var snake = {
 
             apple.remove();
             apple.place();
+
+            //acceleration of snake with every apple eaten
+            if (snakeSpeed > 0) {
+                snakeSpeed = snakeSpeed - 1;
+            }
         }
     },
     leftStep: function() {
@@ -121,7 +126,7 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.leftStep, snake.snakeSpeed);
+        timer = setTimeout(snake.leftStep, snakeSpeed);
     },
     upStep: function() {
         if (breakSnake) {
@@ -136,7 +141,7 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.upStep, snake.snakeSpeed);
+        timer = setTimeout(snake.upStep, snakeSpeed);
     },
     rightStep: function() {
         if (breakSnake) {
@@ -151,7 +156,7 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.rightStep, snake.snakeSpeed);
+        timer = setTimeout(snake.rightStep, snakeSpeed);
     },
     downStep: function() {
         if (breakSnake) {
@@ -166,7 +171,7 @@ var snake = {
 
         snake.moves();
 
-        timer = setTimeout(snake.downStep, snake.snakeSpeed);
+        timer = setTimeout(snake.downStep, snakeSpeed);
     }
 };
 
@@ -213,6 +218,7 @@ function error() {
 //game block
 snake.creating();
 snake.placing();
+var snakeSpeed = snake.startSpeed;
 apple.place();
 
 var currentKeyCode = 40; //variable to keep current direction
@@ -250,7 +256,7 @@ function restartGame() {
     if (error[0] != undefined) {
         error[0].classList.toggle('error');
         var lose_message = document.getElementsByClassName('lose_message_wrapper');
-        cache.body.removeChild(lose_message[0]);        
+        cache.body.removeChild(lose_message[0]);
     }
     for (var i = 0; i < cache.playGround.rows.length; i++) {
         for (var j = 0; j < cache.playGround.rows[0].cells.length; j++) {
@@ -266,6 +272,7 @@ function restartGame() {
 
     snake.creating();
     snake.placing();
+    snakeSpeed = snake.startSpeed;
     apple.place();
 }
 
