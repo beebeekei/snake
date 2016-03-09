@@ -46,15 +46,27 @@ for (var i = 0; i < cache.playGround.rows.length; i++) {
 var startCellCoordX = Math.floor(playGroundArray[0].length / 2);
 var startCellCoordY = Math.floor(playGroundArray.length / 2);
 
-var timer; //to store setTimeout for curent move
+var timer; //to store setTimeout for current move
 var breakSnake = false; //variable to store if snake bumped into itself or not
 //if true - pass it to return function (stop moving in background)
+
+//lose messages
+var errorBlock = document.createElement('div');
+errorBlock.classList.add('lose_message_wrapper');
+errorBlock.innerHTML = '<div class="lose_message"><h2>Sorry, you lose :(</h2></div>';
+
+function error() {
+    cache.body.classList.add('error');
+    cache.body.insertBefore(errorBlock, cache.body.firstChild);
+    breakSnake = true;
+}
 
 var snake = {
     body: [], //each subarray will consist of [class, row number, column number] / [class, y, x]
     bodyOld: [], //to store old values of snake coordinates
     startLength: 4,
     startSpeed: 150,
+    //making array of snake
     creating: function() {
         for (var i = 0; i < snake.startLength; i++) {
             snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
@@ -204,49 +216,6 @@ var apple = {
     }
 };
 
-//lose messages
-var errorBlock = document.createElement('div');
-errorBlock.classList.add('lose_message_wrapper');
-errorBlock.innerHTML = '<div class="lose_message"><h2>Sorry, you lose :(</h2></div>';
-
-function error() {
-    cache.body.classList.add('error');
-    cache.body.insertBefore(errorBlock, cache.body.firstChild);
-    breakSnake = true;
-}
-
-//game block
-snake.creating();
-snake.placing();
-var snakeSpeed = snake.startSpeed;
-apple.place();
-
-var currentKeyCode = 40; //variable to keep current direction
-//in order to be unable to move the opposite direction
-
-//detecting pressed key
-document.addEventListener("keydown", function(e) {
-    if (e.keyCode == 37 && currentKeyCode != 39) {
-        currentKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.leftStep();
-    } else if (e.keyCode == 38 && currentKeyCode != 40) {
-        currentKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.upStep();
-    } else if (e.keyCode == 39 && currentKeyCode != 37) {
-        currentKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.rightStep();
-    } else if (e.keyCode == 40 && currentKeyCode != 38) {
-        currentKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.downStep();
-    } else if (e.keyCode == 13) {
-        restartGame();
-    }
-});
-
 function restartGame() {
     //erasing values from previous game and starting game again
     clearTimeout(timer);
@@ -278,3 +247,35 @@ function restartGame() {
 
 //restart button
 cache.restartButton.addEventListener("click", restartGame);
+
+var currentKeyCode = 40; //variable to keep current direction
+//in order to be unable to move the opposite direction
+
+//detecting pressed key
+document.addEventListener("keydown", function(e) {
+    if (e.keyCode == 37 && currentKeyCode != 39) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        snake.leftStep();
+    } else if (e.keyCode == 38 && currentKeyCode != 40) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        snake.upStep();
+    } else if (e.keyCode == 39 && currentKeyCode != 37) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        snake.rightStep();
+    } else if (e.keyCode == 40 && currentKeyCode != 38) {
+        currentKeyCode = e.keyCode;
+        clearTimeout(timer);
+        snake.downStep();
+    } else if (e.keyCode == 13) {
+        restartGame();
+    }
+});
+
+//game block
+snake.creating();
+snake.placing();
+var snakeSpeed = snake.startSpeed;
+apple.place();
