@@ -39,7 +39,9 @@ var cache = {
     playGround: document.getElementById('playground-table'),
     scoreValue: document.getElementById('score_value'),
     highscoreValue: document.getElementById('highscore_value'),
-    restartButton: document.getElementById('restart')
+    restartButton: document.getElementById('restart'),
+    error: document.getElementsByClassName('error'),
+    lose_message: document.getElementsByClassName('lose_message_wrapper')
 };
 
 //initial value
@@ -209,18 +211,15 @@ function restartGame() {
     clearTimeout(timer);
     previousKeyCode = 40;
     cache.scoreValue.innerHTML = 0;
-    var error = document.getElementsByClassName('error');
-    if (error[0] != undefined) {
-        error[0].classList.toggle('error');
-        var lose_message = document.getElementsByClassName('lose_message_wrapper');
-        cache.body.removeChild(lose_message[0]);
+    if (cache.error[0] != undefined) {
+        cache.error[0].classList.toggle('error');
+        cache.body.removeChild(cache.lose_message[0]);
     }
     for (var i = 0; i < cache.playGround.rows.length; i++) {
         for (var j = 0; j < cache.playGround.rows[0].cells.length; j++) {
             playGroundArray[i][j].className = "cell";
         }
     }
-    var i = 0;
     snake.body = [];
     for (var i = 0; i < snake.startLength; i++) {
         snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
