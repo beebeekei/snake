@@ -20,6 +20,15 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+//disabling arrow and space keys scrolling in browser
+//http://stackoverflow.com/questions/8916620/disable-arrow-key-scrolling-in-users-browser/8916697#8916697
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
 //caching DOM elements
 var cache = {
     body: document.body,
@@ -219,7 +228,7 @@ var apple = {
 function restartGame() {
     //erasing values from previous game and starting game again
     clearTimeout(timer);
-    currentKeyCode = 40;
+    previousKeyCode = 40;
     cache.scoreValue.innerHTML = 0;
     var error = document.getElementsByClassName('error');
     if (error[0] != undefined) {
@@ -248,25 +257,25 @@ function restartGame() {
 //restart button
 cache.restartButton.addEventListener("click", restartGame);
 
-var currentKeyCode = 40; //variable to keep current direction
+var previousKeyCode = 40; //variable to keep current direction
 //in order to be unable to move the opposite direction
 
 //detecting pressed key
 document.addEventListener("keydown", function(e) {
-    if (e.keyCode == 37 && currentKeyCode != 39) {
-        currentKeyCode = e.keyCode;
+    if (e.keyCode == 37 && previousKeyCode != 39) {
+        previousKeyCode = e.keyCode;
         clearTimeout(timer);
         snake.leftStep();
-    } else if (e.keyCode == 38 && currentKeyCode != 40) {
-        currentKeyCode = e.keyCode;
+    } else if (e.keyCode == 38 && previousKeyCode != 40) {
+        previousKeyCode = e.keyCode;
         clearTimeout(timer);
         snake.upStep();
-    } else if (e.keyCode == 39 && currentKeyCode != 37) {
-        currentKeyCode = e.keyCode;
+    } else if (e.keyCode == 39 && previousKeyCode != 37) {
+        previousKeyCode = e.keyCode;
         clearTimeout(timer);
         snake.rightStep();
-    } else if (e.keyCode == 40 && currentKeyCode != 38) {
-        currentKeyCode = e.keyCode;
+    } else if (e.keyCode == 40 && previousKeyCode != 38) {
+        previousKeyCode = e.keyCode;
         clearTimeout(timer);
         snake.downStep();
     } else if (e.keyCode == 13) {
