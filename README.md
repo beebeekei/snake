@@ -3,7 +3,7 @@
 Old arcade game made with pure JavaScript.
 Codepen version: http://s.codepen.io/beebeekei/debug/jWoaVX
 
-##### Description of game:
+##### Please note:
 
 - Made with pure JavaScript (no frameworks)
 - Snake speed accelerates with every apple eaten (+2ms)

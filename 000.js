@@ -1,33 +1,37 @@
-//http://blog.andrewray.me/how-to-clone-a-nested-array-in-javascript/
-function arrayClone(arr) {
-    var i, copy;
+var helpers = {
+    //http://blog.andrewray.me/how-to-clone-a-nested-array-in-javascript/
+    arrayClone: function(arr) {
+        var i, copy;
 
-    if (Array.isArray(arr)) {
-        copy = arr.slice(0);
-        for (i = 0; i < copy.length; i++) {
-            copy[i] = arrayClone(copy[i]);
+        if (Array.isArray(arr)) {
+            copy = arr.slice(0);
+            for (i = 0; i < copy.length; i++) {
+                copy[i] = helpers.arrayClone(copy[i]);
+            }
+            return copy;
+        } else if (typeof arr === 'object') {
+            throw 'Cannot clone array containing an object!';
+        } else {
+            return arr;
         }
-        return copy;
-    } else if (typeof arr === 'object') {
-        throw 'Cannot clone array containing an object!';
-    } else {
-        return arr;
+    },
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    getRandomInt: function(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+    //disabling arrow and space keys scrolling in browser
+    //http://stackoverflow.com/questions/8916620/disable-arrow-key-scrolling-in-users-browser/8916697#8916697
+    scrollDisable: function() {
+        window.addEventListener("keydown", function(e) {
+            // space and arrow keys
+            if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
     }
-}
+};
 
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
-//disabling arrow and space keys scrolling in browser
-//http://stackoverflow.com/questions/8916620/disable-arrow-key-scrolling-in-users-browser/8916697#8916697
-window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
+helpers.scrollDisable();
 
 //caching DOM elements
 var cache = {
@@ -139,7 +143,7 @@ var snake = {
             return;
         }
 
-        snake.bodyOld = arrayClone(snake.body);
+        snake.bodyOld = helpers.arrayClone(snake.body);
 
         if (direction == 'left') {
             snake.body[0][2] = snake.body[0][2] - 1;
@@ -181,8 +185,8 @@ var apple = {
 
         do {
             appleIsOnSnake = false;
-            this.array[1] = getRandomInt(0, playGroundArray.length); //Y
-            this.array[2] = getRandomInt(0, playGroundArray[0].length); //X
+            this.array[1] = helpers.getRandomInt(0, playGroundArray.length); //Y
+            this.array[2] = helpers.getRandomInt(0, playGroundArray[0].length); //X
 
             for (var i = 0; i < snake.body.length; i++) {
                 if (this.array[1] == snake.body[i][1] && this.array[2] == snake.body[i][2]) {
@@ -232,24 +236,24 @@ function restartGame() {
 //restart button
 cache.restartButton.addEventListener("click", restartGame);
 
-var previousKeyCode = 40; //variable to keep current direction
+var previousKeyCode = 40; //variable to keep previous direction
 //in order to be unable to move the opposite direction
 
 //detecting pressed key
 document.addEventListener("keydown", function(e) {
-    function arrowKeys(direction) {
+    function arrowKey(direction) {
         previousKeyCode = e.keyCode;
         clearTimeout(timer);
         snake.step(direction);
     }
     if (e.keyCode == 37 && previousKeyCode != 39) {
-        arrowKeys('left');
+        arrowKey('left');
     } else if (e.keyCode == 38 && previousKeyCode != 40) {
-        arrowKeys('up');
+        arrowKey('up');
     } else if (e.keyCode == 39 && previousKeyCode != 37) {
-        arrowKeys('right');
+        arrowKey('right');
     } else if (e.keyCode == 40 && previousKeyCode != 38) {
-        arrowKeys('down');
+        arrowKey('down');
     } else if (e.keyCode == 13) {
         restartGame();
     }
