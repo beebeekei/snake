@@ -134,65 +134,40 @@ var snake = {
             }
         }
     },
-    leftStep: function() {
+    step: function(direction) {
         if (breakSnake) {
             return;
         }
+
         snake.bodyOld = arrayClone(snake.body);
 
-        snake.body[0][2] = snake.body[0][2] - 1;
-        if (snake.body[0][2] < 0) {
-            return error();
+        if (direction == 'left') {
+            snake.body[0][2] = snake.body[0][2] - 1;
+            if (snake.body[0][2] < 0) {
+                return error();
+            }
+        } else if (direction == 'up') {
+            snake.body[0][1] = snake.body[0][1] - 1;
+            if (snake.body[0][1] < 0) {
+                return error();
+            }
+        } else if (direction == 'right') {
+            snake.body[0][2] = snake.body[0][2] + 1;
+            if (snake.body[0][2] > playGroundArray[0].length - 1) {
+                return error();
+            }
+        } else if (direction == 'down') {
+            snake.body[0][1] = snake.body[0][1] + 1;
+            if (snake.body[0][1] > playGroundArray.length - 1) {
+                return error();
+            }
         }
 
         snake.moves();
 
-        timer = setTimeout(snake.leftStep, snakeSpeed);
-    },
-    upStep: function() {
-        if (breakSnake) {
-            return;
-        }
-        snake.bodyOld = arrayClone(snake.body);
-
-        snake.body[0][1] = snake.body[0][1] - 1;
-        if (snake.body[0][1] < 0) {
-            return error();
-        }
-
-        snake.moves();
-
-        timer = setTimeout(snake.upStep, snakeSpeed);
-    },
-    rightStep: function() {
-        if (breakSnake) {
-            return;
-        }
-        snake.bodyOld = arrayClone(snake.body);
-
-        snake.body[0][2] = snake.body[0][2] + 1;
-        if (snake.body[0][2] > playGroundArray[0].length - 1) {
-            return error();
-        }
-
-        snake.moves();
-
-        timer = setTimeout(snake.rightStep, snakeSpeed);
-    },
-    downStep: function() {
-        if (breakSnake) {
-            return;
-        }
-        snake.bodyOld = arrayClone(snake.body);
-
-        snake.body[0][1] = snake.body[0][1] + 1;
-        if (snake.body[0][1] > playGroundArray.length - 1) {
-            return error();
-        }
-
-        snake.moves();
-
-        timer = setTimeout(snake.downStep, snakeSpeed);
+        timer = setTimeout(function() {
+            snake.step(direction);
+        }, snakeSpeed);
     }
 };
 
@@ -265,19 +240,19 @@ document.addEventListener("keydown", function(e) {
     if (e.keyCode == 37 && previousKeyCode != 39) {
         previousKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.leftStep();
+        snake.step('left');
     } else if (e.keyCode == 38 && previousKeyCode != 40) {
         previousKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.upStep();
+        snake.step('up');
     } else if (e.keyCode == 39 && previousKeyCode != 37) {
         previousKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.rightStep();
+        snake.step('right');
     } else if (e.keyCode == 40 && previousKeyCode != 38) {
         previousKeyCode = e.keyCode;
         clearTimeout(timer);
-        snake.downStep();
+        snake.step('down');
     } else if (e.keyCode == 13) {
         restartGame();
     }
