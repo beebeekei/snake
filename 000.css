@@ -27,7 +27,7 @@ a {
 .page-title {
     font-size: 1.64rem;
     line-height: 110%;
-    margin: 0.82rem 0 0.656rem 0;
+    margin: 20px 0;
 }
 
 .wrapper {
@@ -56,6 +56,11 @@ a {
 
 .error .wrapper_overlay {
     display: block;
+}
+
+.playground-wrapper,
+.info_panel_wrapper {
+    margin-bottom: 60px;
 }
 
 .playground-wrapper {
@@ -98,13 +103,14 @@ a {
 .score_label,
 .highscore_label {
     font-weight: 700;
+    margin-bottom: 5px;
 }
 
 .score_value,
 .highscore_value {
     font-size: 40px;
     font-weight: 100;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 /* lose block */
@@ -114,7 +120,7 @@ a {
     left: 50%;
     margin-left: -150px;
     position: absolute;
-    top: 60px;
+    top: 120px;
     z-index: 99;
 }
 
@@ -141,7 +147,7 @@ a {
 
 .info_panel_wrapper {
     float: right;
-    margin-top: 60px;
+    margin-top: 55px;
 }
 
 
@@ -221,6 +227,25 @@ nav,
     padding: 5px;
     width: 265px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.description {
+    clear: both;
+}
+
+.description h2 {
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.description ul {
+    font-size: 14px;
+}
+
+.description li {
+    margin-bottom: 3px;
+    text-align: left;
+    margin-left: 75px;
 }
 
 .footer {
