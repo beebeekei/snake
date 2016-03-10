@@ -6,7 +6,7 @@ Codepen version: http://s.codepen.io/beebeekei/debug/jWoaVX
 ##### Description of game:
 
 - Made with pure JavaScript (no frameworks)
-- Snake speed accelerates with every apple eaten (+1ms)
+- Snake speed accelerates with every apple eaten (+2ms)
 - Restart works on pressing restart button or enter key
 - By holding arrow key snake will accelerate (while holding)
 - Aware of walls

@@ -130,7 +130,7 @@ var snake = {
 
             //acceleration of snake with every apple eaten
             if (snakeSpeed > 0) {
-                snakeSpeed = snakeSpeed - 1;
+                snakeSpeed = snakeSpeed - 2;
             }
         }
     },
