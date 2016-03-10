@@ -53,7 +53,7 @@ var breakSnake = false; //variable to store if snake bumped into itself or not
 //lose messages
 var errorBlock = document.createElement('div');
 errorBlock.classList.add('lose_message_wrapper');
-errorBlock.innerHTML = '<div class="lose_message"><h2>Sorry, you lose :(</h2></div>';
+errorBlock.innerHTML = '<div class="card-reveal"><h2>Sorry, you lose :(</h2></div>';
 
 function error() {
     cache.body.classList.add('error');

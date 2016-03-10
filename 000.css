@@ -1,17 +1,45 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700,100);
+
 * {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
+html {
+    line-height: 1.5;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.87);
+}
+
 body {
     text-align: center;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
+
+a {
+    text-decoration: none;
+}
+
+.page-title {
+    font-size: 1.64rem;
+    line-height: 110%;
+    margin: 0.82rem 0 0.656rem 0;
+}
+
 .wrapper {
     margin: 0 auto;
     overflow: hidden;
     width: 520px;
 }
+
+.content {
+    flex: 1 0 auto;
+}
+
 .wrapper_overlay {
     background: #FEE;
     bottom: 0;
@@ -25,9 +53,11 @@ body {
     width: 100%;
     z-index: 98;
 }
+
 .error .wrapper_overlay {
     display: block;
 }
+
 .playground-wrapper {
     border: 1px solid #aaa;
     float: left;
@@ -39,6 +69,7 @@ body {
     border: 1px solid #aaa;
     padding: 5px;
 }
+
 .cell {
     border: 1px solid #eee;
     height: 10px;
@@ -57,13 +88,27 @@ body {
     position: relative;
     z-index: 1;
 }
+
 .snake_body {
     background: #C5C5C5;
-    box-shadow: 1px 1px 0px 0px rgba(138,138,138,1);
+    box-shadow: 1px 1px 0px 0px rgba(138, 138, 138, 1);
     position: relative;
 }
 
+.score_label,
+.highscore_label {
+    font-weight: 700;
+}
+
+.score_value,
+.highscore_value {
+    font-size: 40px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+
 /* lose block */
+
 .lose_message_wrapper {
     background: white;
     left: 50%;
@@ -73,17 +118,11 @@ body {
     z-index: 99;
 }
 
-.lose_message {
-    background: white;
-    border: 1px solid #aaa;
-    height: 200px;
-    padding: 5px;
-    width: 300px;
-}
-
-.lose_message h2 {
+.card-reveal h2 {
     margin-bottom: 45px;
     margin-top: 80px;
+    font-size: 24px;
+    font-weight: 300;
 }
 
 .restart {
@@ -101,5 +140,107 @@ body {
 }
 
 .info_panel_wrapper {
+    float: right;
+    margin-top: 60px;
+}
+
+
+/*Material design*/
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    will-change: opacity, transform;
+    transition: all .3s ease-out;
+}
+
+.btn,
+.btn-large {
+    text-decoration: none;
+    color: #fff;
+    background-color: #26a69a;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+}
+
+.btn,
+.btn-large,
+.btn-flat {
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    padding: 0 2rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.z-depth-1,
+nav,
+.card-panel,
+.card,
+.toast,
+.btn,
+.btn-large,
+.btn-floating,
+.dropdown-content,
+.collapsible,
+.side-nav {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
+}
+
+.btn:hover,
+.btn-large:hover {
+    background-color: #2bbbad;
+}
+
+.z-depth-1-half,
+.btn:hover,
+.btn-large:hover,
+.btn-floating:hover {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.card-reveal {
+    background-color: #fff;
+    height: 200px;
+    padding: 5px;
+    width: 265px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.footer {
+    font-size: .9rem;
+    font-weight: 300;
+    overflow: hidden;
+    height: 50px;
+    line-height: 50px;
+    color: rgba(255,255,255,0.8);
+    background-color: #ee6e73;
+}
+
+.footer a {
+    color: #f5f5f5;
+}
+
+.copyright_block {
+    float: left;
+}
+
+.links_block {
     float: right;
 }
