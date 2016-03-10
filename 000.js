@@ -237,22 +237,19 @@ var previousKeyCode = 40; //variable to keep current direction
 
 //detecting pressed key
 document.addEventListener("keydown", function(e) {
+    function arrowKeys(direction) {
+        previousKeyCode = e.keyCode;
+        clearTimeout(timer);
+        snake.step(direction);
+    }
     if (e.keyCode == 37 && previousKeyCode != 39) {
-        previousKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.step('left');
+        arrowKeys('left');
     } else if (e.keyCode == 38 && previousKeyCode != 40) {
-        previousKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.step('up');
+        arrowKeys('up');
     } else if (e.keyCode == 39 && previousKeyCode != 37) {
-        previousKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.step('right');
+        arrowKeys('right');
     } else if (e.keyCode == 40 && previousKeyCode != 38) {
-        previousKeyCode = e.keyCode;
-        clearTimeout(timer);
-        snake.step('down');
+        arrowKeys('down');
     } else if (e.keyCode == 13) {
         restartGame();
     }
