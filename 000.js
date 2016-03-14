@@ -83,31 +83,31 @@ var snake = {
     startSpeed: 150,
     //making array of snake
     creating: function() {
-        for (var i = 0; i < snake.startLength; i++) {
-            snake.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
+        for (var i = 0; i < this.startLength; i++) {
+            this.body[i] = ['snake_body', startCellCoordY - i, startCellCoordX];
         }
-        snake.body[0][0] = 'snake_head'; //constant
+        this.body[0][0] = 'snake_head'; //constant
     },
     //placing snake on a playground
     //counters: i - Y coordinate (as a snake is placed vertically) stands for starting point
     //snake builds from head to tail;
     //j - each part (subarray) of snake; k - loop works as many times as the length of snake is.
     placing: function() {
-        for (var i = startCellCoordY, j = 0, k = snake.body.length; k > 0; i--, j++, k--) {
-            playGroundArray[i][startCellCoordX].classList.add(snake.body[j][0]);
+        for (var i = startCellCoordY, j = 0, k = this.body.length; k > 0; i--, j++, k--) {
+            playGroundArray[i][startCellCoordX].classList.add(this.body[j][0]);
         }
     },
     moves: function() {
         //changing snake coordinates in subarrays
-        for (var i = 1; i < snake.body.length; i++) {
-            for (var j = 1; j < snake.body[i].length; j++) {
-                snake.body[i][j] = snake.bodyOld[i - 1][j];
+        for (var i = 1; i < this.body.length; i++) {
+            for (var j = 1; j < this.body[i].length; j++) {
+                this.body[i][j] = this.bodyOld[i - 1][j];
             }
         }
 
         //checking if snake doesn't bump into itself
-        for (var i = 1; i < snake.body.length; i++) {
-            if (snake.body[0][1] == snake.body[i][1] && snake.body[0][2] == snake.body[i][2]) {
+        for (var i = 1; i < this.body.length; i++) {
+            if (this.body[0][1] == this.body[i][1] && this.body[0][2] == this.body[i][2]) {
                 return error();
             }
         }
@@ -115,18 +115,18 @@ var snake = {
         //applying classes to build new snake
         //counters:
         //i - snake/snake.bodyOld part number; [1] stands for Y coordinate - [2] for X
-        for (var i = 0; i < snake.body.length; i++) {
-            playGroundArray[ snake.body[i][1] ][ snake.body[i][2] ].classList.add(snake.body[i][0]);
-            playGroundArray[ snake.bodyOld[i][1] ][ snake.bodyOld[i][2] ].classList.remove(snake.body[i][0]);
+        for (var i = 0; i < this.body.length; i++) {
+            playGroundArray[ this.body[i][1] ][ this.body[i][2] ].classList.add(this.body[i][0]);
+            playGroundArray[ this.bodyOld[i][1] ][ this.bodyOld[i][2] ].classList.remove(this.body[i][0]);
         }
 
         //eating apple
-        if (apple.array[1] == snake.body[0][1] && apple.array[2] == snake.body[0][2]) {
+        if (apple.array[1] == this.body[0][1] && apple.array[2] == this.body[0][2]) {
             //increasing body of a snake by adding part to end (tail coords of snake after eating apple equal to tail coords of old snake)
-            snake.body.push(snake.bodyOld[ snake.bodyOld.length - 1 ]);
+            this.body.push(this.bodyOld[ this.bodyOld.length - 1 ]);
 
             //storing score
-            cache.scoreValue.innerHTML = snake.body.length - snake.startLength;
+            cache.scoreValue.innerHTML = this.body.length - this.startLength;
             if (parseFloat(cache.highscoreValue.innerHTML) < parseFloat(cache.scoreValue.innerHTML)) {
                 cache.highscoreValue.innerHTML = cache.scoreValue.innerHTML;
             }
@@ -145,31 +145,31 @@ var snake = {
             return;
         }
 
-        snake.bodyOld = helpers.arrayClone(snake.body);
+        this.bodyOld = helpers.arrayClone(this.body);
 
         if (direction == 'left') {
-            snake.body[0][2] = snake.body[0][2] - 1;
-            if (snake.body[0][2] < 0) {
+            this.body[0][2] = this.body[0][2] - 1;
+            if (this.body[0][2] < 0) {
                 return error();
             }
         } else if (direction == 'up') {
-            snake.body[0][1] = snake.body[0][1] - 1;
-            if (snake.body[0][1] < 0) {
+            this.body[0][1] = this.body[0][1] - 1;
+            if (this.body[0][1] < 0) {
                 return error();
             }
         } else if (direction == 'right') {
-            snake.body[0][2] = snake.body[0][2] + 1;
-            if (snake.body[0][2] > playGroundArray[0].length - 1) {
+            this.body[0][2] = this.body[0][2] + 1;
+            if (this.body[0][2] > playGroundArray[0].length - 1) {
                 return error();
             }
         } else if (direction == 'down') {
-            snake.body[0][1] = snake.body[0][1] + 1;
-            if (snake.body[0][1] > playGroundArray.length - 1) {
+            this.body[0][1] = this.body[0][1] + 1;
+            if (this.body[0][1] > playGroundArray.length - 1) {
                 return error();
             }
         }
 
-        snake.moves();
+        this.moves();
 
         timer = setTimeout(function() {
             snake.step(direction);
@@ -181,7 +181,7 @@ var apple = {
     array: [], //array will consist of [class, row number, column number] / [class, y, x]
     //we need to place apple on board with random coords - but not to place on a snake
     place: function() {
-        apple.array[0] = 'apple'; //constant
+        this.array[0] = 'apple'; //constant
 
         var appleIsOnSnake;
 
@@ -261,5 +261,6 @@ document.addEventListener("keydown", function(e) {
 //game block
 snake.creating();
 snake.placing();
+//variable to keep current snake speed, which increases with every apple eaten
 var snakeSpeed = snake.startSpeed;
 apple.place();
