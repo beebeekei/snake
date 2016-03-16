@@ -250,9 +250,7 @@ var game = {
             }
         }
         game.snake.body = [];
-        for (var i = 0; i < game.snake.startLength; i++) {
-            game.snake.body[i] = ['snake_body', game.startCellCoordY - i, game.startCellCoordX];
-        }
+
         game.breakSnake = false;
 
         game.snake.creating();
