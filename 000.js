@@ -257,7 +257,7 @@ var game = {
 
         game.snake.creating();
         game.snake.placing();
-        game.snakeSpeed = game.snake.startSpeed;
+        game.snake.snakeSpeed = game.snake.startSpeed;
         game.apple.place();
     }
 };
